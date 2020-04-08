@@ -80,7 +80,7 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    script.append("helm init -c --tiller-namespace testenvironment")
+    script.append("helm init -c --tiller-namespace testenv")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
