@@ -12,7 +12,7 @@ pathToUpYaml = sys.argv[1]
 pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
-# branch = sys.argv[5]
+branch = sys.argv[5]
 
 valuesDir = "values"
 glEnvUrl = "https://knight.livspace.com"
