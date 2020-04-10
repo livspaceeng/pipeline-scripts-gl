@@ -97,10 +97,12 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     cmd1 = "ls -la"+ " "+ "$pwd"
+    variab = "echo "+ $ORG
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
     script.append(cmd1)
+    script.append(variab)
     
     # print(os.listdir('/tmp/test'))
     print(os.listdir(os.getcwd()))
