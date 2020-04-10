@@ -98,7 +98,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
         
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    # script.append("$CMD_BUILD")
+    script.append("$CMD_BUILD")
     # script.append(cmd)
 
         
