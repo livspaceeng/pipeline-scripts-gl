@@ -95,11 +95,12 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-        
+    
+    cmd1 = "ls -la" + " "+ "/tmp/test"
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
-    script.append("ls -la /tmp/test")
+    script.append(cmd1)
     # print(os.listdir('/tmp/test'))
     # print(os.listdir(os.getcwd()))
     # script.append(cmd)
