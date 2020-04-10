@@ -119,9 +119,9 @@ for m in deps:
     break
     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
 
-#     #yaml.add_representer(str, str_presenter)
-#     # yaml.add_representer(unicode, str_presenter)
+    #yaml.add_representer(str, str_presenter)
+    # yaml.add_representer(unicode, str_presenter)
 
-#     with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
-#         yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
-#     # print(yaml.dump(hr,default_flow_style=False))
+    with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
+        yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
+    # print(yaml.dump(hr,default_flow_style=False))
