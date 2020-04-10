@@ -100,6 +100,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
     print(os.listdir('/tmp/test'))
+    print(os.listdir('values'))
     # script.append(cmd)
 
         
