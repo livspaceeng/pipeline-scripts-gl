@@ -69,7 +69,6 @@ def MergeValues(name):
 
     try:
         value = yaml.load(open(d + "/" + VALUE_FILE_NAME),Loader=yaml.FullLoader)
-        print(value)
     except yaml.YAMLError as exc:
         if hasattr(exc, 'problem_mark'):
             mark = exc.problem_mark
@@ -81,9 +80,6 @@ def MergeValues(name):
 
     files = dict()
     for (dirpath, dirnames, filenames) in walk(d):
-        print('dirpath = '+ dirpath)
-        print(dirnames)
-        print(filenames)
         for f in filenames:
             if f != VALUE_FILE_NAME:
                 with open(dirpath + "/" + f, 'r') as myfile:
@@ -91,9 +87,7 @@ def MergeValues(name):
                     output = ''
                     for line in myfile:
                         output = output + line.rstrip()  + "\n"
-                    print(output)
                     files[f] = output
-                    print(files)
     if name == "expose":
         value['Annotations']['helmrelease'] = datetime.datetime.utcnow().isoformat()
 
@@ -115,8 +109,6 @@ for m in deps:
     if 'alias' in m:
         name = m['alias']
     value = MergeValues(name)
-    print(value)
-    break
     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
 
     #yaml.add_representer(str, str_presenter)
