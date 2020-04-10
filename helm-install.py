@@ -13,6 +13,7 @@ pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
 branch = sys.argv[5]
+org = sys.argv[6]
 
 valuesDir = "values"
 glEnvUrl = "https://knight.livspace.com"
@@ -86,7 +87,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
@@ -97,7 +98,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     cmd1 = "ls -la"+ " "+ "$pwd"
-    variab = "echo "+ $ORG
+    variab = "echo "+ org
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
@@ -144,7 +145,7 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org)
     
     
 for apps in upYaml:
@@ -160,7 +161,7 @@ for apps in upYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org)
     
 
 
