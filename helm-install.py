@@ -106,6 +106,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("$CMD_BUILD")
     script.append(cmd1)
     script.append(variab)
+    script.append(clone)
     
     # print(os.listdir('/tmp/test'))
     print(os.listdir(os.getcwd()))
