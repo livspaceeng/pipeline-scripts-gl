@@ -79,38 +79,40 @@ def MergeValues(name):
         print(e)
         return dict()
 
-#     files = dict()
-#     for (dirpath, dirnames, filenames) in walk(d):
-#         for f in filenames:
-#             if f != VALUE_FILE_NAME:
-#                 with open(dirpath + "/" + f, 'r') as myfile:
-#                     #Becuase of issue https://github.com/yaml/pyyaml/issues/121
-#                     output = ''
-#                     for line in myfile:
-#                         output = output + line.rstrip()  + "\n"
-#                     files[f] = output
-#     if name == "expose":
-#         value['Annotations']['helmrelease'] = datetime.datetime.utcnow().isoformat()
+    files = dict()
+    for (dirpath, dirnames, filenames) in walk(d):
+        for f in filenames:
+            if f != VALUE_FILE_NAME:
+                with open(dirpath + "/" + f, 'r') as myfile:
+                    #Becuase of issue https://github.com/yaml/pyyaml/issues/121
+                    output = ''
+                    for line in myfile:
+                        output = output + line.rstrip()  + "\n"
+                    files[f] = output
+    if name == "expose":
+        value['Annotations']['helmrelease'] = datetime.datetime.utcnow().isoformat()
 
-#     if 'config' in value and 'enabled' in value['config'] and value['config']['enabled']:
-#         value['config']['files'] = files
+    if 'config' in value and 'enabled' in value['config'] and value['config']['enabled']:
+        value['config']['files'] = files
 
-#     return value
+    return value
 
-# yaml.add_representer(str, str_presenter)
-# #yaml.add_representer(bytes, str_presenter)
-# #yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
+yaml.add_representer(str, str_presenter)
+#yaml.add_representer(bytes, str_presenter)
+#yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
-# for m in deps:
-#     version = m['version']
-#     repo = m['repository']
-#     release = m['name']
-#     value = {}
-#     name = m['name']
-#     if 'alias' in m:
-#         name = m['alias']
-#     value = MergeValues(name)
-#     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
+for m in deps:
+    version = m['version']
+    repo = m['repository']
+    release = m['name']
+    value = {}
+    name = m['name']
+    if 'alias' in m:
+        name = m['alias']
+    value = MergeValues(name)
+    print(value)
+    break
+    hr = BuildHR(name,NAMESPACE,repo,release,version,value)
 
 #     #yaml.add_representer(str, str_presenter)
 #     # yaml.add_representer(unicode, str_presenter)
