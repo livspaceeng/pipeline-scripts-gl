@@ -14,6 +14,7 @@ pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
 branch = sys.argv[5]
 org = sys.argv[6]
+app_name = sys.argv[7]
 
 valuesDir = "values"
 glEnvUrl = "https://knight.livspace.com"
@@ -87,7 +88,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
@@ -98,7 +99,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     cmd1 = "ls -la"+ " "+ "$pwd"
-    variab = "echo "+ org
+    variab = "echo "+"cloning repo"
+    clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
