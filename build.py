@@ -91,7 +91,9 @@ def MergeValues(name):
                     output = ''
                     for line in myfile:
                         output = output + line.rstrip()  + "\n"
+                    print(output)
                     files[f] = output
+                    print(files)
     if name == "expose":
         value['Annotations']['helmrelease'] = datetime.datetime.utcnow().isoformat()
 
