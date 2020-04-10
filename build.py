@@ -27,57 +27,57 @@ else:
     print ("Successfully created the directory %s " % OUT_DIR)
 
 reqs = yaml.load(open(REQ_FILE),Loader=yaml.FullLoader)
-print(reqs)
 deps = reqs["dependencies"]
 
-# def str_presenter(dumper, data):
-#     dlen = 0
-#     style = None
-#     try:
-#         dlen = len(data.splitlines())
-#     except TypeError as ex:
-#         print(ex) 
-#     if (dlen > 1):
-#         style='|' 
+def str_presenter(dumper, data):
+    dlen = 0
+    style = None
+    try:
+        dlen = len(data.splitlines())
+    except TypeError as ex:
+        print(ex) 
+    if (dlen > 1):
+        style='|' 
      
-#     print("Using style %s for data: %s" % (style,data))
-#     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style=style)
+    print("Using style %s for data: %s" % (style,data))
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style=style)
 
-# def BuildHR(name,namespace,repo,repo_name,version,value):
-#     hr = dict()
-#     metadata = dict()
-#     spec = dict()
-#     chart = dict()
+def BuildHR(name,namespace,repo,repo_name,version,value):
+    hr = dict()
+    metadata = dict()
+    spec = dict()
+    chart = dict()
 
-#     spec["chart"] = chart
-#     hr["spec"] = spec
-#     hr["metadata"] = metadata
-#     hr['apiVersion'] = "flux.weave.works/v1beta1"
-#     hr['kind'] = "HelmRelease"
+    spec["chart"] = chart
+    hr["spec"] = spec
+    hr["metadata"] = metadata
+    hr['apiVersion'] = "flux.weave.works/v1beta1"
+    hr['kind'] = "HelmRelease"
 
-#     metadata["name"] = name
-#     metadata["namespace"] = namespace
+    metadata["name"] = name
+    metadata["namespace"] = namespace
 
-#     chart["repository"] = repo
-#     chart["name"] = repo_name
-#     chart["version"] =  version
+    chart["repository"] = repo
+    chart["name"] = repo_name
+    chart["version"] =  version
 
-#     spec["values"] = value
-#     return hr
+    spec["values"] = value
+    return hr
 
-# def MergeValues(name):
-#     d = VALUE_DIR + "/" + name
+def MergeValues(name):
+    d = VALUE_DIR + "/" + name
 
-#     try:
-#         value = yaml.load(open(d + "/" + VALUE_FILE_NAME),Loader=yaml.FullLoader)
-#     except yaml.YAMLError as exc:
-#         if hasattr(exc, 'problem_mark'):
-#             mark = exc.problem_mark
-#             print("Error position: (%s:%s)" % (mark.line+1, mark.column+1))
-#         return dict()
-#     except IOError as e:
-#         print(e)
-#         return dict()
+    try:
+        value = yaml.load(open(d + "/" + VALUE_FILE_NAME),Loader=yaml.FullLoader)
+        print(value)
+    except yaml.YAMLError as exc:
+        if hasattr(exc, 'problem_mark'):
+            mark = exc.problem_mark
+            print("Error position: (%s:%s)" % (mark.line+1, mark.column+1))
+        return dict()
+    except IOError as e:
+        print(e)
+        return dict()
 
 #     files = dict()
 #     for (dirpath, dirnames, filenames) in walk(d):
