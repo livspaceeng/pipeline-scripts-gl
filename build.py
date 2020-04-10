@@ -82,7 +82,7 @@ def MergeValues(name):
     files = dict()
     for (dirpath, dirnames, filenames) in walk(d):
         print('dirpath = '+ dirpath)
-        print('dirnames = '+dirnames)
+        print(dirnames)
         print(filenames)
         for f in filenames:
             if f != VALUE_FILE_NAME:
