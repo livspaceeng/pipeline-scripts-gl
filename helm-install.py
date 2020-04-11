@@ -82,6 +82,22 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
+    before_script= "apk update and apk add"
+    before_script1 = 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    before_script2 = "eval $(ssh-agent -s)"
+    before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
+    before_script4 = "mkdir -p ~/.ssh"
+    before_script5 = "chmod 700 ~/.ssh"
+    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
+    before_script7 = "chmod 644 ~/.ssh/known_hosts"
+    script.append(before_script)
+    script.append(before_script1)
+    script.append(before_script2)
+    script.append(before_script3)
+    script.append(before_script4)
+    script.append(before_script5)
+    script.append(before_script6)
+    script.append(before_script7)
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
@@ -102,22 +118,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script = []
     cmd1 = "ls -la"+ " "+ "$pwd"
     variab = "echo "+"cloning repo"
-    before_script= "apk update and apk add"
-    before_script1 = 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    before_script2 = "eval $(ssh-agent -s)"
-    before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
-    before_script4 = "mkdir -p ~/.ssh"
-    before_script5 = "chmod 700 ~/.ssh"
-    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
-    before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    script.append(before_script)
-    script.append(before_script1)
-    script.append(before_script2)
-    script.append(before_script3)
-    script.append(before_script4)
-    script.append(before_script5)
-    script.append(before_script6)
-    script.append(before_script7)
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
     script.append(cmd1)
