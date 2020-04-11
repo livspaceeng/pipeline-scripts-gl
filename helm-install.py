@@ -133,7 +133,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     listenv = "ls -ls env"
     listenv1 = "ls -ls "+"/test/tmp"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    version1 = "which python"
+    version1 = "python "+"--version"
     script.append(install)
     script.append(source)
 
