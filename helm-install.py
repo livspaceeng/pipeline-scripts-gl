@@ -17,6 +17,8 @@ org = sys.argv[6]
 app_name = sys.argv[7]
 
 valuesDir = "values"
+valuesDir1 = "/tmp/test"
+
 glEnvUrl = "https://knight.livspace.com"
 glImage = "alpine/helm:2.11.0"
 glCiYaml = "cicd.yaml"
@@ -109,7 +111,7 @@ def beforeScript(repo):
 def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name):
     valOverride = ""
     if valExists:
-        valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
+        valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride
@@ -118,13 +120,17 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
-    cmd1 = "ls -la"+ " "+ "$pwd"
-    variab = "echo "+"cloning repo"
+    pwd = "ls -la"+ " "+ "$pwd"
+    message = "echo "+"cloning repo"
+    cd = "cd .."
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
-    script.append(variab)
+    script.append(message)
     script.append(clone)
-    script.append(cmd1)    
+    script.append(pwd)
+    script.append(cd)
+    script.append(pwd)
+
     
     # env = dict()
     # env['name'] = namespace
