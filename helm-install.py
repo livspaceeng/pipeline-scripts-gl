@@ -143,7 +143,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(checkout)
     script.append(listenv)
-    script.append("$CMD_BUILDv1")
+    script.append("$CMD_BUILDV1")
     
     
     
