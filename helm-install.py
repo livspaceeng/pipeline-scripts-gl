@@ -102,7 +102,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script = []
     cmd1 = "ls -la"+ " "+ "$pwd"
     variab = "echo "+"cloning repo"
-    # before_script= "apk update && apk add git"
+    before_script= "apk update and apk add"
     before_script1 = 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
