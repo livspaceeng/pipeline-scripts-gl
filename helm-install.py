@@ -92,7 +92,7 @@ def beforeScript(repo):
     before_script5 = "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    before_script8 = "apk update && apk add curl curl-dev && apk add bash && apk add python3-pip"
+    before_script8 = "apk update && apk add curl curl-dev && apk add bash && apk add python3 py3-pip && pip install --upgrade pip"
     
     script.append(before_script)
     
