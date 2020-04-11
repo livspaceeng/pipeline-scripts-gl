@@ -19,5 +19,6 @@ chmod +x *
 
 mv * /usr/local/bin/
 curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
-python get-pip.py
+which python3
+python3 get-pip.py
 pip install PyYaml
