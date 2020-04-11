@@ -98,6 +98,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
     
+    clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
+    script = []
     cmd1 = "ls -la"+ " "+ "$pwd"
     variab = "echo "+"cloning repo"
     before_script= "apk update && apk add git"
@@ -108,12 +110,16 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     before_script5 = "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
-
-    clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
-    script = []
+    script.append(before_script)
+    script.append(before_script1)
+    script.append(before_script2)
+    script.append(before_script3)
+    script.append(before_script4)
+    script.append(before_script5)
+    script.append(before_script6)
+    script.append(before_script7)
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
-    script.append(before_script)
     script.append(cmd1)
     script.append(variab)
     script.append(clone)
