@@ -131,6 +131,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     source = "source /usr/local/bin/pipeline-vars.sh"
     checkout = "git checkout $bitbucketCommit"
     listenv = "ls -ls env"
+    listenv1 = "ls -ls "+"/test/tmp"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     
     script.append(install)
@@ -143,7 +144,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(checkout)
     script.append(listenv)
-    script.append("$CMD_BUILDV1")
+    script.append("$CMD_BUILDV1")   
+    script.append(listenv1)
     
     
     
