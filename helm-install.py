@@ -85,7 +85,7 @@ def beforeScript(repo):
     before_script= "apk update and apk add git"
     before_script8= "apk --no-cache add git"
     before_script9= "git submodule update --recursive --remote"
-    before_script1 = 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    before_script1 = 'which ssh-agent || ( apk update -y && apk install openssh-client -y )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
     before_script4 = "mkdir -p ~/.ssh"
@@ -95,7 +95,7 @@ def beforeScript(repo):
     script.append(before_script)
     script.append(before_script8)
     script.append(before_script9)
-    
+
     script.append(before_script1)
     script.append(before_script2)
     script.append(before_script3)
