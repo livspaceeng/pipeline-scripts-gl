@@ -82,9 +82,8 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    # before_script= "apk update and apk add git"
     before_script8= "apk --no-cache add git"
-    before_script9= "git submodule update --recursive --remote"
+    # before_script9= "git submodule update --recursive --remote"
     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
@@ -92,9 +91,9 @@ def beforeScript(repo):
     before_script5 = "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    # script.append(before_script)
+    
     script.append(before_script8)
-    script.append(before_script9)
+    # script.append(before_script9)
 
     script.append(before_script1)
     script.append(before_script2)
