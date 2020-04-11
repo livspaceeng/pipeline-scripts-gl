@@ -133,7 +133,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     listenv = "ls -ls env"
     listenv1 = "ls -ls "+"/test/tmp"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    
+    version1 = "which python"
     script.append(install)
     script.append(source)
 
@@ -144,8 +144,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(checkout)
     script.append(listenv)
-    script.append("$CMD_BUILDV1")   
-    script.append(listenv1)
+    script.append(version1)   
     
     
     
