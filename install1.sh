@@ -20,7 +20,7 @@ chmod +x *
 mv * /usr/local/bin/
 
 which python3
-pip3 --version
+# pip3 --version
 pip --version
 # /usr/bin/python3 -m pip install
 # pip3 install PyYaml
