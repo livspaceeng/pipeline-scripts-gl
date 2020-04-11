@@ -82,7 +82,7 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    before_script= "apk update and apk add bash"
+    before_script= "apk update and apk add git"
     # before_script1 = 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     # before_script2 = "eval $(ssh-agent -s)"
     # before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
