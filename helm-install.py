@@ -110,7 +110,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     before_script5 = "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    # script.append(before_script)
+    script.append(before_script)
     script.append(before_script1)
     script.append(before_script2)
     script.append(before_script3)
