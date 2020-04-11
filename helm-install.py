@@ -132,7 +132,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     checkout = "git checkout $bitbucketCommit"
     listenv = "ls -ls env"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    script.append("$CMD_BUILD")
+    
     script.append(install)
     script.append(source)
 
@@ -143,6 +143,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(checkout)
     script.append(listenv)
+    script.append("$CMD_BUILD")
     
     
     
