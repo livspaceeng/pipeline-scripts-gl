@@ -18,5 +18,6 @@ unzip -j /tmp/latest.zip
 chmod +x *
 
 mv * /usr/local/bin/
-sudo easy_install-3.7 pip
+curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
+python get-pip.py
 pip install PyYaml
