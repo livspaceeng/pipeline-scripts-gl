@@ -92,6 +92,7 @@ def beforeScript(repo):
     before_script5 = "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
+    before_script8 = "apk update && apk add curl curl-dev"
     
     script.append(before_script)
     
@@ -102,6 +103,7 @@ def beforeScript(repo):
     script.append(before_script5)
     script.append(before_script6)
     script.append(before_script7)
+    script.append(before_script8)
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
