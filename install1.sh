@@ -20,5 +20,5 @@ chmod +x *
 mv * /usr/local/bin/
 
 which python3
-/usr/bin/python3 -m pip install
+# /usr/bin/python3 -m pip install
 pip install PyYaml
