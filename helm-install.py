@@ -82,8 +82,7 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    before_script8= "apk --no-cache add git"
-    # before_script9= "git submodule update --recursive --remote"
+    before_script= "apk --no-cache add git"
     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
@@ -92,9 +91,8 @@ def beforeScript(repo):
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
     
-    script.append(before_script8)
-    # script.append(before_script9)
-
+    script.append(before_script)
+    
     script.append(before_script1)
     script.append(before_script2)
     script.append(before_script3)
@@ -124,16 +122,9 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     variab = "echo "+"cloning repo"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
-    script.append(cmd1)
     script.append(variab)
     script.append(clone)
-    script.append(cmd1)
-    
-    # print(os.listdir('/tmp/test'))
-    print(os.listdir(os.getcwd()))
-    # script.append(cmd)
-
-        
+    script.append(cmd1)    
     
     # env = dict()
     # env['name'] = namespace
