@@ -100,10 +100,12 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     cmd1 = "ls -la"+ " "+ "$pwd"
     variab = "echo "+"cloning repo"
+    before_script: "apk update && apk add git"
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
+    script.app_name(before_script)
     script.append(cmd1)
     script.append(variab)
     script.append(clone)
