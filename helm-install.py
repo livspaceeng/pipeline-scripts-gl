@@ -123,14 +123,24 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     pwd = "ls -la"+ " "+ "$pwd"
     message = "echo "+"cloning repo"
     cd = "cd .."
+    install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install.sh | bash -s latest"
+    source = "source /usr/local/bin/pipeline-vars.sh"
+    checkout = "git checkout $bitbucketCommit"
+    listenv = "ls -ls env"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     script.append("$CMD_BUILD")
+    script.append(install)
+    script.append(source)
+
     script.append(message)
     script.append(clone)
     script.append(pwd)
     script.append(cd)
     script.append(pwd)
-
+    script.append(checkout)
+    script.append(listenv)
+    
+    
     
     # env = dict()
     # env['name'] = namespace
