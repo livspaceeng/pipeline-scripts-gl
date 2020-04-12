@@ -86,15 +86,15 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
+    script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
+    script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
+    script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
+    script.append("apk update && apk add curl curl-dev && apk add bash"+" "+"&&"+"apk add --update libc-dev")
     before_script = "apk add --no-cache python3 && python3 -m ensurepip \
     && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     rm -r /root/.cache"
-    script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
-    script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
-    script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
-    script.append("apk update && apk add curl curl-dev && apk add bash"+" "+"&&"+"apk add --update libc-dev")
     script.append(before_script)
     script.append("pip install pyyaml")
    
