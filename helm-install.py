@@ -121,7 +121,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     cd = "cd "+app_name
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
     source = "source /usr/local/bin/pipeline-vars.sh"
-    lastCommit1 = "git checkout "+lastCommit
     cpEnvOld = "cp -r env old"
     checkout = "git checkout "+bitbucketCommit
     diff = "$CMD_DIFF old env"
