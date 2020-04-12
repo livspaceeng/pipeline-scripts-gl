@@ -146,6 +146,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     path = "ls -la "+"/usr/local/lib"
     path1 = "ls -la "+"/usr/local/bin"
     path2 = "ls -la "+"/usr/lib"
+    path3 = "ls -la "+"/usr/bin"
+   
     script.append(install)
     script.append(source)
 
@@ -159,6 +161,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(path)
     script.append(path1)
     script.append(path2)
+    script.append(path3)
 #     script.append(build)
 #     script.append(version1)
     
