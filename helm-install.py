@@ -95,7 +95,7 @@ def beforeScript(repo):
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"+"&&"+"apk add --update libc-dev"
     before_script10 = "apk add --no-cache python3 && python3 -m ensurepip \
     && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools" 
-#     before_script11 = "pip install pyyaml"
+    before_script11 = "pip install pyyaml"
     script.append(before_script)
     
     script.append(before_script1)
@@ -141,7 +141,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     version1 = "python3 --version"
     version2 = "pip --version"
-    version3 = "pip install pyyaml"
+#     version3 = "pip install pyyaml"
     result = "ls -la result/*"
     updated = "cat result/updatedReposList.yaml"
     deleted = "cat result/deletedReposList.yaml"
@@ -178,7 +178,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(path3)
     script.append(version1)
     script.append(version2)
-    script.append(version3)
+#     script.append(version3)
     script.append(build)
     script.append(pwd)
     script.append(changeD)
