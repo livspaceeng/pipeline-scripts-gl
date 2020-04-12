@@ -87,9 +87,8 @@ def getrepo(repo):
 def beforeScript(repo):
     script = []
     before_script= "apk --no-cache add git"+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )'
-#     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
-    before_script2 = "eval $(ssh-agent -s)"
-    before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
+    before_script2 = "eval $(ssh-agent -s)"+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
+#     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
     before_script4 = "mkdir -p ~/.ssh" +"&&"+ "chmod 700 ~/.ssh"
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts"
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"+"&&"+"apk add --update libc-dev"
@@ -103,7 +102,7 @@ def beforeScript(repo):
     
 #     script.append(before_script1)
     script.append(before_script2)
-    script.append(before_script3)
+#     script.append(before_script3)
     script.append(before_script4)
     script.append(before_script6)
     script.append(before_script8)
