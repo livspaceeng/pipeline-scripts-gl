@@ -146,7 +146,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(message)
     script.append(clone)
     script.append(cd)
-    script.append(pwd)
     script.append(lastCommit)
     script.append(cpEnvOld)
     script.append(checkout)
