@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import pyyaml
+import PyYaml
 import sys
 from os import mkdir, walk
 import datetime
