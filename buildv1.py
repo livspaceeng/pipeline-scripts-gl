@@ -27,19 +27,6 @@ depsUpdated = reqsUpdated["dependencies"]
 reqsDeleted = yaml.load(open(DeletedYaml),Loader=yaml.FullLoader)
 depsDeleted = reqsDeleted["dependencies"]
 
-# def str_presenter(dumper, data):
-#     dlen = 0
-#     style = None
-#     try:
-#         dlen = len(data.splitlines())
-#     except TypeError as ex:
-#         print(ex) 
-#     if (dlen > 1):
-#         style='|' 
-     
-#     print("Using style %s for data: %s" % (style,data))
-#     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style=style)
-
 def MergeValues(name):
     d = VALUE_DIR + "/" + name
 
@@ -71,8 +58,6 @@ def MergeValues(name):
         value['config']['files'] = files
 
     return value
-
-# yaml.add_representer(str, str_presenter)
 
 for m in depsUpdated:
     version = m['version']
