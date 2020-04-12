@@ -94,7 +94,10 @@ def beforeScript(repo):
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts"
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"+"&&"+"apk add --update libc-dev"
     before_script10 = "apk add --no-cache python3 && python3 -m ensurepip \
-    && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools" 
+    && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache"
     before_script11 = "pip install pyyaml"
     script.append(before_script)
     
