@@ -15,6 +15,8 @@ ns = sys.argv[4]
 branch = sys.argv[5]
 org = sys.argv[6]
 app_name = sys.argv[7]
+lastCommit = sys.argv[8]
+bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
 valuesDir1 = "/tmp/test"
@@ -84,35 +86,37 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    before_script= "apk --no-cache add git"
-    before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
+    before_script= "apk --no-cache add git"+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )'
+#     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
-    before_script4 = "mkdir -p ~/.ssh"
-    before_script5 = "chmod 700 ~/.ssh"
-    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
-    before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    before_script8 = "apk update && apk add curl curl-dev && apk add bash"
-    before_script9 = "apk add --update python3"
-    
+    before_script4 = "mkdir -p ~/.ssh" +"&&"+ "chmod 700 ~/.ssh"
+    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts"
+    before_script8 = "apk update && apk add curl curl-dev && apk add bash"+"&&"+"apk add --update libc-dev"
+    before_script10 = "apk add --no-cache python3 && python3 -m ensurepip \
+    && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache"
+    before_script11 = "pip install pyyaml"
     script.append(before_script)
     
-    script.append(before_script1)
+#     script.append(before_script1)
     script.append(before_script2)
     script.append(before_script3)
     script.append(before_script4)
-    script.append(before_script5)
     script.append(before_script6)
-    script.append(before_script7)
     script.append(before_script8)
-    script.append(before_script9)
+    script.append(before_script10)
+    script.append(before_script11)
+   
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
     return script
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
@@ -124,40 +128,38 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
-    pwd = "ls -la"+ " "+ "$pwd"
     message = "echo "+"cloning repo"
+<<<<<<< HEAD
     cd = "cd .."
+=======
+    cd = "cd "+app_name
+>>>>>>> c77e80d4b997dda95e3d93bec210744cda7a56d8
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
     source = "source /usr/local/bin/pipeline-vars.sh"
-    checkout = "git checkout $bitbucketCommit"
-    listenv = "ls -ls env"
+    lastCommit = "git checkout "+lastCommit
+    cpEnvOld = "cp -r env old"
+    checkout = "git checkout "+bitbucketCommit
+    diff = "$CMD_DIFF old env"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    script.append("$CMD_BUILD")
+    build = "$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml
+    changeDirec = "cd .."
+    values = "ls -ls "+"/tmp/test"
+   
     script.append(install)
     script.append(source)
-
     script.append(message)
     script.append(clone)
-    script.append(pwd)
     script.append(cd)
-    script.append(pwd)
+    script.append(lastCommit)
+    script.append(cpEnvOld)
     script.append(checkout)
-    script.append(listenv)
-    
-    
-    
-    # env = dict()
-    # env['name'] = namespace
-    # env['url'] = glEnvUrl
-
-    # only= []
-    # only.append(branch)
-    
+    script.append(diff)
+    script.append(build)
+    script.append(changeDirec)
+    script.append(values)
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
-    # dep['only'] = only
-    # dep['environment'] = env
     return dep
     
 gitlabci = OrderedDict()
@@ -180,7 +182,7 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
     
     
 for apps in upYaml:
@@ -196,7 +198,7 @@ for apps in upYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
     
 
 
