@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.8
 
-import PyYaml
+import yaml
 import sys
 from os import mkdir, walk
 import datetime
