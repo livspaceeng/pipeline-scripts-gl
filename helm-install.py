@@ -90,12 +90,12 @@ def beforeScript(repo):
     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
-    before_script4 = "mkdir -p ~/.ssh"
-    before_script5 = "chmod 700 ~/.ssh"
-    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
-    before_script7 = "chmod 644 ~/.ssh/known_hosts"
-    before_script8 = "apk update && apk add curl curl-dev && apk add bash"
-    before_script9 = "apk add --update libc-dev"
+    before_script4 = "mkdir -p ~/.ssh" +"&&"+ "chmod 700 ~/.ssh"
+#     before_script5 = "chmod 700 ~/.ssh"
+    before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts"
+#     before_script7 = "chmod 644 ~/.ssh/known_hosts"
+    before_script8 = "apk update && apk add curl curl-dev && apk add bash"+"&&"+"apk add --update libc-dev"
+#     before_script9 = "apk add --update libc-dev"
     before_script10 = "apk add --no-cache python3 && python3 -m ensurepip  \
     && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
@@ -108,11 +108,11 @@ def beforeScript(repo):
     script.append(before_script2)
     script.append(before_script3)
     script.append(before_script4)
-    script.append(before_script5)
+#     script.append(before_script5)
     script.append(before_script6)
-    script.append(before_script7)
+#     script.append(before_script7)
     script.append(before_script8)
-    script.append(before_script9)
+#     script.append(before_script9)
     script.append(before_script10)
     script.append(before_script11)
    
