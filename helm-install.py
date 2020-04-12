@@ -93,7 +93,7 @@ def beforeScript(repo):
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"
-#     before_script9 = "apk add libpython3.6-dev && apk add --update libgcc"
+    before_script9 = "apk add --update libc-dev"
     before_script10 = "apk add --no-cache python3 && python3 -m ensurepip"
 #     && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
 #     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
@@ -110,7 +110,7 @@ def beforeScript(repo):
     script.append(before_script6)
     script.append(before_script7)
     script.append(before_script8)
-#     script.append(before_script9)
+    script.append(before_script9)
     script.append(before_script10)
    
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
