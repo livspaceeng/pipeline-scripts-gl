@@ -142,7 +142,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("echo 'Upgrading " + name + " using " + app + "'")
 #     version1 = "python"
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
-    build = "$CMD_BUILDV1"
+    build = "python3 buildv1.py"
     script.append(install)
     script.append(source)
 
