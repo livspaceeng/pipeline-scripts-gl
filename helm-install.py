@@ -105,11 +105,8 @@ def beforeScript(repo):
     script.append(before_script2)
     script.append(before_script3)
     script.append(before_script4)
-#     script.append(before_script5)
     script.append(before_script6)
-#     script.append(before_script7)
     script.append(before_script8)
-#     script.append(before_script9)
     script.append(before_script10)
     script.append(before_script11)
    
@@ -138,74 +135,29 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     lastCommit = "git checkout "+lastCommit
     cpEnvOld = "cp -r env old"
     checkout = "git checkout "+bitbucketCommit
-    listenv = "ls -ls env"
     diff = "$CMD_DIFF old env"
-    listenv1 = "ls -ls "+"/test/tmp"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    version1 = "python3 --version"
-    version2 = "pip --version"
-#     version3 = "pip install pyyaml"
-    result = "ls -la result/*"
-    updated = "cat result/updatedReposList.yaml"
-    deleted = "cat result/deletedReposList.yaml"
-#     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
     build = "$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml
-    pwd = "ls -ls $pwd"
-    changeD = "cd .."
-    values1 = "ls -ls "+"/tmp/test"
-#     "python3 buildv1.py"
-    path = "ls -la "+"/usr/local/lib"
-    path1 = "ls -la "+"/usr/local/bin"
-    path2 = "ls -la "+"/usr/lib"
-    path3 = "ls -la "+"/usr/bin"
+    changeDirec = "cd .."
+    values = "ls -ls "+"/tmp/test"
    
     script.append(install)
     script.append(source)
-
     script.append(message)
     script.append(clone)
-    script.append(pwd)
     script.append(cd)
     script.append(pwd)
     script.append(lastCommit)
     script.append(cpEnvOld)
     script.append(checkout)
-    script.append(listenv)
     script.append(diff)
-    script.append(result)
-    script.append(updated)
-    script.append(deleted)
-    script.append(path)
-    script.append(path1)
-    script.append(path2)
-    script.append(path3)
-    script.append(version1)
-    script.append(version2)
-#     script.append(version3)
     script.append(build)
-    script.append(pwd)
-    script.append(changeD)
-    script.append(pwd)
-    script.append(values1)
-    
-    
-#     script.append(buildpython)   
-#     script.append(listenv1)
-    
-    
-    
-    # env = dict()
-    # env['name'] = namespace
-    # env['url'] = glEnvUrl
-
-    # only= []
-    # only.append(branch)
+    script.append(changeDirec)
+    script.append(values)
     
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
-    # dep['only'] = only
-    # dep['environment'] = env
     return dep
     
 gitlabci = OrderedDict()
