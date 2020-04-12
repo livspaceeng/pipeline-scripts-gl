@@ -8,19 +8,11 @@ import datetime
 UpdatedYaml = sys.argv[1]
 DeletedYaml = sys.argv[2]
 
-REQ_FILE ='env/requirements.yaml'
 VALUE_DIR = 'env/values'
 VALUE_FILE_NAME = 'values.yaml'
 OUT_DIR="/tmp/test"
-NAMESPACE='test'
-
-# if len(sys.argv) >= 2 and sys.argv[1] is not None:
-#     OUT_DIR = sys.argv[1]
-# if len(sys.argv) >= 3 and sys.argv[2] is not None:
-#     NAMESPACE = sys.argv[2]
 
 print("Output directory " + OUT_DIR)
-print("Deployment namespace is  " + NAMESPACE)
 
 try:  
     mkdir(OUT_DIR)
@@ -29,49 +21,24 @@ except OSError:
 else:  
     print ("Successfully created the directory %s " % OUT_DIR)
 
-# reqs = yaml.load(open(REQ_FILE),Loader=yaml.FullLoader)
-# deps = reqs["dependencies"]
-
 reqsUpdated = yaml.load(open(UpdatedYaml),Loader=yaml.FullLoader)
 depsUpdated = reqsUpdated["dependencies"]
 
 reqsDeleted = yaml.load(open(DeletedYaml),Loader=yaml.FullLoader)
 depsDeleted = reqsDeleted["dependencies"]
 
-def str_presenter(dumper, data):
-    dlen = 0
-    style = None
-    try:
-        dlen = len(data.splitlines())
-    except TypeError as ex:
-        print(ex) 
-    if (dlen > 1):
-        style='|' 
+# def str_presenter(dumper, data):
+#     dlen = 0
+#     style = None
+#     try:
+#         dlen = len(data.splitlines())
+#     except TypeError as ex:
+#         print(ex) 
+#     if (dlen > 1):
+#         style='|' 
      
-    print("Using style %s for data: %s" % (style,data))
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style=style)
-
-def BuildHR(name,namespace,repo,repo_name,version,value):
-    hr = dict()
-    metadata = dict()
-    spec = dict()
-    chart = dict()
-
-    spec["chart"] = chart
-    hr["spec"] = spec
-    hr["metadata"] = metadata
-    hr['apiVersion'] = "flux.weave.works/v1beta1"
-    hr['kind'] = "HelmRelease"
-
-    metadata["name"] = name
-    metadata["namespace"] = namespace
-
-    chart["repository"] = repo
-    chart["name"] = repo_name
-    chart["version"] =  version
-
-    spec["values"] = value
-    return hr
+#     print("Using style %s for data: %s" % (style,data))
+#     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style=style)
 
 def MergeValues(name):
     d = VALUE_DIR + "/" + name
@@ -105,20 +72,7 @@ def MergeValues(name):
 
     return value
 
-yaml.add_representer(str, str_presenter)
-#yaml.add_representer(bytes, str_presenter)
-#yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
-
-# for m in deps:
-#     version = m['version']
-#     repo = m['repository']
-#     release = m['name']
-#     value = {}
-#     name = m['name']
-#     if 'alias' in m:
-#         name = m['alias']
-#     value = MergeValues(name)
-#     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
+# yaml.add_representer(str, str_presenter)
 
 for m in depsUpdated:
     version = m['version']
@@ -131,12 +85,8 @@ for m in depsUpdated:
     value = MergeValues(name)
     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
 
-    #yaml.add_representer(str, str_presenter)
-    # yaml.add_representer(unicode, str_presenter)
-
     with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
         yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
-    # print(yaml.dump(hr,default_flow_style=False))
     
 for m in depsDeleted:
     version = m['version']
@@ -148,9 +98,6 @@ for m in depsDeleted:
         name = m['alias']
     value = MergeValues(name)
     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
-
-    #yaml.add_representer(str, str_presenter)
-    # yaml.add_representer(unicode, str_presenter)
 
     with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
         yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
