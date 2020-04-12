@@ -5,16 +5,19 @@ import sys
 from os import mkdir, walk
 import datetime
 
+UpdatedYaml = sys.argv[1]
+DeletedYaml = sys.argv[2]
+
 REQ_FILE ='env/requirements.yaml'
 VALUE_DIR = 'env/values'
 VALUE_FILE_NAME = 'values.yaml'
 OUT_DIR="/tmp/test"
 NAMESPACE='test'
 
-if len(sys.argv) >= 2 and sys.argv[1] is not None:
-    OUT_DIR = sys.argv[1]
-if len(sys.argv) >= 3 and sys.argv[2] is not None:
-    NAMESPACE = sys.argv[2]
+# if len(sys.argv) >= 2 and sys.argv[1] is not None:
+#     OUT_DIR = sys.argv[1]
+# if len(sys.argv) >= 3 and sys.argv[2] is not None:
+#     NAMESPACE = sys.argv[2]
 
 print("Output directory " + OUT_DIR)
 print("Deployment namespace is  " + NAMESPACE)
@@ -26,8 +29,14 @@ except OSError:
 else:  
     print ("Successfully created the directory %s " % OUT_DIR)
 
-reqs = yaml.load(open(REQ_FILE),Loader=yaml.FullLoader)
-deps = reqs["dependencies"]
+# reqs = yaml.load(open(REQ_FILE),Loader=yaml.FullLoader)
+# deps = reqs["dependencies"]
+
+reqsUpdated = yaml.load(open(UpdatedYaml),Loader=yaml.FullLoader)
+depsUpdated = reqsUpdated["dependencies"]
+
+reqsDeleted = yaml.load(open(DeletedYaml),Loader=yaml.FullLoader)
+depsDeleted = reqsDeleted["dependencies"]
 
 def str_presenter(dumper, data):
     dlen = 0
@@ -100,7 +109,18 @@ yaml.add_representer(str, str_presenter)
 #yaml.add_representer(bytes, str_presenter)
 #yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
-for m in deps:
+# for m in deps:
+#     version = m['version']
+#     repo = m['repository']
+#     release = m['name']
+#     value = {}
+#     name = m['name']
+#     if 'alias' in m:
+#         name = m['alias']
+#     value = MergeValues(name)
+#     hr = BuildHR(name,NAMESPACE,repo,release,version,value)
+
+for m in depsUpdated:
     version = m['version']
     repo = m['repository']
     release = m['name']
@@ -117,3 +137,20 @@ for m in deps:
     with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
         yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
     # print(yaml.dump(hr,default_flow_style=False))
+    
+for m in depsDeleted:
+    version = m['version']
+    repo = m['repository']
+    release = m['name']
+    value = {}
+    name = m['name']
+    if 'alias' in m:
+        name = m['alias']
+    value = MergeValues(name)
+    hr = BuildHR(name,NAMESPACE,repo,release,version,value)
+
+    #yaml.add_representer(str, str_presenter)
+    # yaml.add_representer(unicode, str_presenter)
+
+    with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
+        yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
