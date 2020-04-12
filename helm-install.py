@@ -99,7 +99,7 @@ def beforeScript(repo):
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     rm -r /root/.cache"
-    
+    before_script11 = "pip install pyyaml"
     script.append(before_script)
     
     script.append(before_script1)
@@ -112,6 +112,7 @@ def beforeScript(repo):
     script.append(before_script8)
     script.append(before_script9)
     script.append(before_script10)
+    script.append(before_script11)
    
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
