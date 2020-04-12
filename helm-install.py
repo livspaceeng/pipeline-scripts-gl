@@ -129,11 +129,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
     message = "echo "+"cloning repo"
-<<<<<<< HEAD
-    cd = "cd .."
-=======
     cd = "cd "+app_name
->>>>>>> c77e80d4b997dda95e3d93bec210744cda7a56d8
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
     source = "source /usr/local/bin/pipeline-vars.sh"
     lastCommit = "git checkout "+lastCommit
