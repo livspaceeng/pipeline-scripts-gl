@@ -152,7 +152,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     updated = "cat result/updatedReposList.yaml"
     deleted = "cat result/deletedReposList.yaml"
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
-    build = "$CMD_BUILDV1"
+    build = "$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml
     pwd = "ls -ls $pwd"
     changeD = "cd .."
     values1 = "ls -ls "+"/tmp/test"
