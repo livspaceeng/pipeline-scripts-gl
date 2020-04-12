@@ -147,6 +147,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     build = "$CMD_BUILDV1"
     pwd = "ls -ls $pwd"
     changeD = "cd .."
+    values1 = "ls -ls "+"/tmp/test"
 #     "python3 buildv1.py"
     path = "ls -la "+"/usr/local/lib"
     path1 = "ls -la "+"/usr/local/bin"
