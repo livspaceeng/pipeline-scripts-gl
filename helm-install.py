@@ -132,7 +132,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
-    pwd = "ls -la"+ " "+ "$pwd"
     message = "echo "+"cloning repo"
     cd = "cd "+app_name
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
@@ -147,6 +146,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
     build = "$CMD_BUILDV1"
     pwd = "ls -ls $pwd"
+    changeD = "cd .."
 #     "python3 buildv1.py"
     path = "ls -la "+"/usr/local/lib"
     path1 = "ls -la "+"/usr/local/bin"
@@ -171,6 +171,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(version2)
     script.append(version3)
     script.append(build)
+    script.append(pwd)
+    script.append(changeD)
     script.append(pwd)
     
     
