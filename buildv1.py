@@ -97,7 +97,6 @@ for m in depsDeleted:
     if 'alias' in m:
         name = m['alias']
     value = MergeValues(name)
-    hr = BuildHR(name,NAMESPACE,repo,release,version,value)
-
+   
     with open(OUT_DIR + "/" + name + '.yaml', 'w') as outfile:
         yaml.dump(value, outfile, default_flow_style=False, allow_unicode=True,width=1000)
