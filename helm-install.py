@@ -156,7 +156,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(version1)
     
 #     script.append(buildpython)   
-    script.append(listenv1)
+#     script.append(listenv1)
     
     
     
