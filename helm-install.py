@@ -94,6 +94,11 @@ def beforeScript(repo):
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"
     before_script9 = "apk add update && apk add python3"
+    before_script10 = "apk add --no-cache python3 && \
+    python3 -m ensurepip && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache"
     
     script.append(before_script)
     
@@ -106,6 +111,8 @@ def beforeScript(repo):
     script.append(before_script7)
     script.append(before_script8)
     script.append(before_script9)
+    script.append(before_script10)
+   
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
