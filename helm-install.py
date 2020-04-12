@@ -114,20 +114,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
     
-    clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
-    
-    message = "echo "+"cloning repo"
-    cd = "cd "+app_name
-    install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
-    source = "source /usr/local/bin/pipeline-vars.sh"
-    cpEnvOld = "cp -r env old"
-    checkout = "git checkout "+bitbucketCommit
-    diff = "$CMD_DIFF old env"
-    build = "$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml
-    changeDirec = "cd .."
-    values = "ls -ls "+"/tmp/test"
-   
+  
     script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
 )
     script.append("source /usr/local/bin/pipeline-vars.sh")
@@ -142,8 +130,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("cd ..")
     script.append("ls -ls "+"/tmp/test")
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-
-#     script.append(cmd)
+    script.append(cmd)
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
