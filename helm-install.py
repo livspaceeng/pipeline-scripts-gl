@@ -116,6 +116,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     clone = "git clone git@bitbucket.org:"+org+"/"+app_name+".git"
     script = []
+    
     message = "echo "+"cloning repo"
     cd = "cd "+app_name
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
@@ -124,23 +125,26 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     cpEnvOld = "cp -r env old"
     checkout = "git checkout "+bitbucketCommit
     diff = "$CMD_DIFF old env"
-    script.append("echo 'Upgrading " + name + " using " + app + "'")
     build = "$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml
     changeDirec = "cd .."
     values = "ls -ls "+"/tmp/test"
    
-    script.append(install)
-    script.append(source)
-    script.append(message)
-    script.append(clone)
-    script.append(cd)
-    script.append(lastCommit)
-    script.append(cpEnvOld)
-    script.append(checkout)
-    script.append(diff)
-    script.append(build)
-    script.append(changeDirec)
-    script.append(values)
+    script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
+)
+    script.append("source /usr/local/bin/pipeline-vars.sh")
+    script.append("echo "+"cloning repo")
+    script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
+    script.append("cd "+app_name)
+    script.append("git checkout "+lastCommit)
+    script.append("cp -r env old")
+    script.append("git checkout "+bitbucketCommit)
+    script.append("$CMD_DIFF old env")
+    script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
+    script.append("cd ..")
+    script.append("ls -ls "+"/tmp/test")
+    script.append("echo 'Upgrading " + name + " using " + app + "'")
+
+#     script.append(cmd)
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
