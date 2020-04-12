@@ -110,7 +110,7 @@ def beforeScript(repo):
     script.append(before_script6)
     script.append(before_script7)
     script.append(before_script8)
-#     script.append(before_script9)
+    script.append(before_script9)
     script.append(before_script10)
    
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
