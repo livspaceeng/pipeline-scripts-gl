@@ -175,6 +175,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(changeD)
     script.append(pwd)
+    script.append(values1)
     
     
 #     script.append(buildpython)   
