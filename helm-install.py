@@ -142,6 +142,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     version1 = "python3 --version"
     version2 = "pip --version"
+    version3 = "pip install pyyaml"
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
     build = "python3 buildv1.py"
     path = "ls -la "+"/usr/local/lib"
@@ -165,6 +166,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(path3)
     script.append(version1)
     script.append(version2)
+    script.append(version3)
 #     script.append(build)
     
     
