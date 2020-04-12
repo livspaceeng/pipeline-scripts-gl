@@ -144,7 +144,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     version1 = "python3 --version"
     version2 = "pip --version"
-    version3 = "pip install pyyaml"
+#     version3 = "pip install pyyaml"
     result = "ls -la result/*"
     updated = "cat result/updatedReposList.yaml"
     deleted = "cat result/deletedReposList.yaml"
@@ -181,7 +181,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(path3)
     script.append(version1)
     script.append(version2)
-    script.append(version3)
+#     script.append(version3)
     script.append(build)
     script.append(pwd)
     script.append(changeD)
