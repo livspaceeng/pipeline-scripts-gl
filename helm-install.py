@@ -146,6 +146,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     version3 = "pip install pyyaml"
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
     build = "$CMD_BUILDV1"
+    pwd = "ls -ls $pwd"
 #     "python3 buildv1.py"
     path = "ls -la "+"/usr/local/lib"
     path1 = "ls -la "+"/usr/local/bin"
@@ -170,6 +171,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(version2)
     script.append(version3)
     script.append(build)
+    script.append(pwd)
     
     
 #     script.append(buildpython)   
