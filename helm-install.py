@@ -147,6 +147,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     version2 = "pip --version"
     version3 = "pip install pyyaml"
     result = "ls -la result/*"
+    updated = "cat result/updatedReposList.yaml"
+    deleted = "cat result/deletedReposList.yaml"
 #     buildpython = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/buildv1.py | python -s"
     build = "$CMD_BUILDV1"
     pwd = "ls -ls $pwd"
@@ -172,6 +174,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(listenv)
     script.append(diff)
     script.append(result)
+    script.append(updated)
+    script.append(deleted)
     script.append(path)
     script.append(path1)
     script.append(path2)
