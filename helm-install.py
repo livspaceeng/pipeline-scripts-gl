@@ -136,8 +136,11 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     cd = "cd "+app_name
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
     source = "source /usr/local/bin/pipeline-vars.sh"
+    lastCommit = "git checkout $lastCommit"
+    cpEnvOld = "cp -r env old"
     checkout = "git checkout $bitbucketCommit"
     listenv = "ls -ls env"
+    diff = "$CMD_DIFF old env"
     listenv1 = "ls -ls "+"/test/tmp"
     script.append("echo 'Upgrading " + name + " using " + app + "'")
     version1 = "python3 --version"
@@ -162,8 +165,11 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(pwd)
     script.append(cd)
     script.append(pwd)
+    script.append(lastCommit)
+    script.append(cpEnvOld)
     script.append(checkout)
     script.append(listenv)
+    script.append(diff)
     script.append(path)
     script.append(path1)
     script.append(path2)
