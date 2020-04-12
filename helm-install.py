@@ -86,8 +86,8 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    before_script= "apk --no-cache add git"
-    before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
+    before_script= "apk --no-cache add git"+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )'
+#     before_script1 = 'which ssh-agent || ( apk update && apk add openssh-client )'
     before_script2 = "eval $(ssh-agent -s)"
     before_script3 = """echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -"""
     before_script4 = "mkdir -p ~/.ssh" +"&&"+ "chmod 700 ~/.ssh"
@@ -101,7 +101,7 @@ def beforeScript(repo):
     before_script11 = "pip install pyyaml"
     script.append(before_script)
     
-    script.append(before_script1)
+#     script.append(before_script1)
     script.append(before_script2)
     script.append(before_script3)
     script.append(before_script4)
