@@ -15,6 +15,8 @@ ns = sys.argv[4]
 branch = sys.argv[5]
 org = sys.argv[6]
 app_name = sys.argv[7]
+lastCommit = sys.argv[8]
+bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
 valuesDir1 = "/tmp/test"
@@ -120,7 +122,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
@@ -136,9 +138,9 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     cd = "cd "+app_name
     install = "curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
     source = "source /usr/local/bin/pipeline-vars.sh"
-    lastCommit = "git checkout $lastCommit"
+    lastCommit = "git checkout "+lastCommit
     cpEnvOld = "cp -r env old"
-    checkout = "git checkout $bitbucketCommit"
+    checkout = "git checkout "+bitbucketCommit
     listenv = "ls -ls env"
     diff = "$CMD_DIFF old env"
     listenv1 = "ls -ls "+"/test/tmp"
@@ -229,7 +231,7 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
     
     
 for apps in upYaml:
@@ -245,7 +247,7 @@ for apps in upYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
     
 
 
