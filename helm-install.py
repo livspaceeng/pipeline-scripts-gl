@@ -93,7 +93,7 @@ def beforeScript(repo):
     before_script6 = """echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts"""
     before_script7 = "chmod 644 ~/.ssh/known_hosts"
     before_script8 = "apk update && apk add curl curl-dev && apk add bash"
-#     before_script9 = "apk add update && apk add python3"
+    before_script9 = "apk add --update libgcc"
     before_script10 = "apk add --no-cache python3 && \
     python3 -m ensurepip && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
