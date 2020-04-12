@@ -153,7 +153,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append(build)
     script.append(changeDirec)
     script.append(values)
-    
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
