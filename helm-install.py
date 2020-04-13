@@ -117,6 +117,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     script = []
+    script.append("ls -la values")
   
     script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
 )
