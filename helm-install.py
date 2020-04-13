@@ -98,7 +98,7 @@ def beforeScript(repo):
     script.append(before_script)
     script.append("pip install pyyaml")
    
-    script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
+    script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE --service-account runner-gitlab-runner")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
@@ -129,7 +129,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
     script.append("ls -ls "+"/tmp/test")
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-    script.append("helm init --service-account runner-gitlab-runner")
+#     script.append("helm init --service-account runner-gitlab-runner")
     script.append(cmd)
     dep = OrderedDict()
     dep['stage'] = stage
