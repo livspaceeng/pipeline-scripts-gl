@@ -129,6 +129,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
     script.append("ls -ls "+"/tmp/test")
     script.append("echo 'Upgrading " + name + " using " + app + "'")
+    script.append("helm init --service-account- runner-gitlab-runner")
     script.append(cmd)
     dep = OrderedDict()
     dep['stage'] = stage
