@@ -86,6 +86,8 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
+    script.append("$pwd")
+    script.append("ls -la $pwd")
     script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
     script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
     script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
