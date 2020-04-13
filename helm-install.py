@@ -98,7 +98,7 @@ def beforeScript(repo):
     script.append(before_script)
     script.append("pip install pyyaml")
     script.append("echo "+"$TILLER_NAMESPACE")
-    script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE --service-account runner-gitlab-runner")
+    script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
