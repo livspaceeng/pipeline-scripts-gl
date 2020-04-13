@@ -131,9 +131,13 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     script.append("echo 'Upgrading " + name + " using " + app + "'")
 #     script.append("helm init --service-account runner-gitlab-runner")
     script.append(cmd)
+    env = dict()
+    env['name'] = namespace
+    env['url'] = glEnvUrl
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
+    dep['environment'] = env
     return dep
     
 gitlabci = OrderedDict()
@@ -142,6 +146,8 @@ gitlabci['image'] = glImage
 gitlabci['before_script'] = beforeScript(reps)
 
 gitlabci['stages'] = deployStages
+
+
 
 
 done1 = False
