@@ -13,10 +13,10 @@ pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
 branch = sys.argv[5]
-org = sys.argv[6]
-app_name = sys.argv[7]
-lastCommit = sys.argv[8]
-bitbucketCommit = sys.argv[9]
+# org = sys.argv[6]
+# app_name = sys.argv[7]
+# lastCommit = sys.argv[8]
+# bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
 valuesDir1 = "/tmp/test"
@@ -106,7 +106,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
@@ -164,7 +164,7 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org, app_name, lastCommit, bitbucketCommit)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists)
     
     
 for apps in upYaml:
@@ -180,7 +180,7 @@ for apps in upYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org, app_name, lastCommit, bitbucketCommit)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists)
     
 
 
