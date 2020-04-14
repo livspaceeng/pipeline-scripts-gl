@@ -109,22 +109,12 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def repoadd(repo, upYaml):
+def repoAdd(repo, upYaml):
     script = []
     for i in upYaml:
-        print(i['repository'])
         for k,rep in repo.items():
             if i['repository'] == k:
-                print(i['repository'])
-                print(k)
                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
-#     for k,rep in repo.items():
-#         print(rep)
-#         for i in upYaml:
-#             if i['repository'] == k:
-#                 print(i['repository'])
-#                 print(k)
-#                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
     return script
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
@@ -152,6 +142,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     artifacts = OrderedDict()
     artifacts['paths'] = []
     artifacts['paths'].append("values")
+    
     dep1 = OrderedDict()
     dep1['stage'] = "init"
     dep1['script'] = script
@@ -159,20 +150,19 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     return dep1
     
 
-
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit, repo, upYaml ):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride       
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-    
+    repo = repoAdd(repo, upYaml)
+    script.append(repo)
     script.append(cmd)
     env = dict()
     env['name'] = namespace
