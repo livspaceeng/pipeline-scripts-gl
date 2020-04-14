@@ -13,10 +13,10 @@ pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
 branch = sys.argv[5]
-org = sys.argv[6]
-app_name = sys.argv[7]
-lastCommit = sys.argv[8]
-bitbucketCommit = sys.argv[9]
+# org = sys.argv[6]
+# app_name = sys.argv[7]
+# lastCommit = sys.argv[8]
+# bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
 valuesDir1 = "/tmp/test"
@@ -86,19 +86,19 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    script.append("$pwd")
-    script.append("ls -la $pwd")
-    script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
-    script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
-    script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
-    script.append("apk update && apk add curl curl-dev && apk add bash"+" "+"&&"+"apk add --update libc-dev")
-    before_script = "apk add --no-cache python3 && python3 -m ensurepip \
-    && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache"
-    script.append(before_script)
-    script.append("pip install pyyaml")
+#     script.append("$pwd")
+#     script.append("ls -la $pwd")
+#     script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
+#     script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
+#     script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
+#     script.append("apk update && apk add curl curl-dev && apk add bash"+" "+"&&"+"apk add --update libc-dev")
+#     before_script = "apk add --no-cache python3 && python3 -m ensurepip \
+#     && rm -r /usr/lib/python*/ensurepip && pip3 install --upgrade pip setuptools && \
+#     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#     rm -r /root/.cache"
+#     script.append(before_script)
+#     script.append("pip install pyyaml")
     script.append("echo "+"$TILLER_NAMESPACE")
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
     for k,rep in repo.items():
@@ -109,7 +109,7 @@ def beforeScript(repo):
 def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
     valOverride = ""
     if valExists:
-        valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
+        valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride
@@ -117,22 +117,21 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     script = []
-    script.append("ls -la values")
+#     script.append("ls -la values")
   
-    script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
-)
-    script.append("source /usr/local/bin/pipeline-vars.sh")
-    script.append("echo "+"cloning repo")
-    script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
-    script.append("cd "+app_name)
-    script.append("git checkout "+lastCommit)
-    script.append("cp -r env old")
-    script.append("git checkout "+bitbucketCommit)
-    script.append("$CMD_DIFF old env")
-    script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
-    script.append("ls -ls "+"/tmp/test")
+#     script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
+# )
+#     script.append("source /usr/local/bin/pipeline-vars.sh")
+#     script.append("echo "+"cloning repo")
+#     script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
+#     script.append("cd "+app_name)
+#     script.append("git checkout "+lastCommit)
+#     script.append("cp -r env old")
+#     script.append("git checkout "+bitbucketCommit)
+#     script.append("$CMD_DIFF old env")
+#     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
+#     script.append("ls -ls "+"/tmp/test")
     script.append("echo 'Upgrading " + name + " using " + app + "'")
-#     script.append("helm init --service-account runner-gitlab-runner")
     script.append(cmd)
     env = dict()
     env['name'] = namespace
