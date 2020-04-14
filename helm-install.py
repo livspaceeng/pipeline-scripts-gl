@@ -109,10 +109,10 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def repoadd(repo):
-    for k,rep in repo.items():
-        if 
-        script.append("helm repo add " + rep['label'] + " " + rep['url'])
+# def repoadd(repo):
+#     for k,rep in repo.items():
+#         if 
+#         script.append("helm repo add " + rep['label'] + " " + rep['url'])
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
