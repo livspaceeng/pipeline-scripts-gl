@@ -109,10 +109,13 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-# def repoadd(repo):
-#     for k,rep in repo.items():
-#         if 
-#         script.append("helm repo add " + rep['label'] + " " + rep['url'])
+def repoadd(repo, pathToUpYaml):
+    script = []
+    for k,rep in repo.items():
+        for i in pathToUpYaml:
+            if i['repository'] = k:
+                script.append("helm repo add " + rep['label'] + " " + rep['url'])
+    return script
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
@@ -206,7 +209,7 @@ for apps in upYaml:
     initName = "initialize" 
     gitlabci[initName] = initStage(org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
     gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
-    
+    gitlabci['repoadd'] = repoadd(reps, pathToUpYaml):
 
 
 if done1 or done2:
