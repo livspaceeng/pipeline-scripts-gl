@@ -142,7 +142,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
 def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
     valOverride = ""
     if valExists:
-        valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
+        valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
     script = []
     script.append("echo 'Upgrading " + name + " using " + app + "'")
 
