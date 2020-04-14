@@ -57,6 +57,7 @@ try:
     with open('pipeline-config.yml', 'r') as stream:
         pipeConfig = yaml.safe_load(stream)
         reps = repoMap(pipeConfig['repositories'])
+        print(reps)
         if 'stages' in pipeConfig:
             deployStages = pipeConfig['stages']
         if 'apps-stage' in pipeConfig:
