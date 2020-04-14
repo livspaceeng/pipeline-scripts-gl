@@ -117,6 +117,7 @@ def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pa
     script.append("mkdir -p values")
     script.append("rm -rf values/*")
     script.append("cp /tmp/test/* values/")
+    script.append("ls -la values")
     
     artifacts = OrderedDict()
     artifacts['paths'] = []
