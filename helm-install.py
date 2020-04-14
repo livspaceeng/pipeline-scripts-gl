@@ -112,7 +112,7 @@ def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pa
     script.append("cp -r env old")
     script.append("git checkout "+bitbucketCommit)
     script.append("$CMD_DIFF old env")
-    script.append("$CMD_BUILD"+" "+pathToUpYaml+" "+pathToDelYaml)
+    script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
     script.append("cd ..")
     script.append("mkdir -p values")
     script.append("rm -rf values/*")
