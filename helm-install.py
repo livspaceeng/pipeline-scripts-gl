@@ -19,7 +19,6 @@ lastCommit = sys.argv[8]
 bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
-valuesDir1 = "/tmp/test"
 
 glEnvUrl = "https://knight.livspace.com"
 glImage = "alpine/helm:2.11.0"
@@ -57,7 +56,6 @@ try:
     with open('pipeline-config.yml', 'r') as stream:
         pipeConfig = yaml.safe_load(stream)
         reps = repoMap(pipeConfig['repositories'])
-        print(reps)
         if 'stages' in pipeConfig:
             deployStages = pipeConfig['stages']
         if 'apps-stage' in pipeConfig:
@@ -70,7 +68,6 @@ try:
     with open(pathToUpYaml, 'r') as stream:
         ups = yaml.safe_load(stream)
         upYaml = ups['dependencies']
-        print(upYaml)
 except Exception as exc:
     print(exc)
     upYaml = []
@@ -79,7 +76,6 @@ try:
     with open(pathToDelYaml, 'r') as stream:
         dels = yaml.safe_load(stream)
         delYaml = dels['dependencies']
-        print(delYaml)
 except Exception as exc:
     print(exc)
     delYaml = []
@@ -89,8 +85,6 @@ def getrepo(repo):
     
 def beforeScript(repo):
     script = []
-    script.append("$pwd")
-    script.append("ls -la $pwd")
     script.append("apk --no-cache add git"+" "+"&&"+'which ssh-agent || ( apk update && apk add openssh-client )')
     script.append("eval $(ssh-agent -s)"+" "+"&&"+"""echo "$SSH_PRIIVATE_KEY2" | tr -d '\r' | ssh-add -""")
     script.append("mkdir -p ~/.ssh"+" "+"&&"+ "chmod 700 ~/.ssh"+"&&"+"""echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts""" +"&&"+"chmod 644 ~/.ssh/known_hosts")
@@ -102,10 +96,7 @@ def beforeScript(repo):
     rm -r /root/.cache"
     script.append(before_script)
     script.append("pip install pyyaml")
-    script.append("echo "+"$TILLER_NAMESPACE")
     script.append("helm init -c --tiller-namespace $TILLER_NAMESPACE")
-    for k,rep in repo.items():
-        script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
     return script
 
@@ -154,8 +145,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
                     script.append("helm repo add " + rep['label'] + " " + rep['url'])
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-#     repos = repoAdd(repository, upYaml)
-#     script.append(repos)
     script.append(cmd)
     env = dict()
     env['name'] = namespace
@@ -184,7 +173,7 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, upYaml)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, delYaml)
     
     
 for apps in upYaml:
