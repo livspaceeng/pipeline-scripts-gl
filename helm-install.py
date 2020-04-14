@@ -150,7 +150,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     return dep1
     
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit, repo, upYaml ):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit, repository, upYaml ):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
@@ -161,8 +161,8 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride       
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-    repo = repoAdd(repo, upYaml)
-    script.append(repo)
+    repos = repoAdd(repository, upYaml)
+    script.append(repos)
     script.append(cmd)
     env = dict()
     env['name'] = namespace
@@ -208,7 +208,7 @@ for apps in upYaml:
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     initName = "initialize" 
     gitlabci[initName] = initStage(org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, upYaml)
     gitlabci['repoadd'] = repoadd(reps, upYaml)
 
 
