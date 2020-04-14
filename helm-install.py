@@ -112,12 +112,12 @@ def beforeScript(repo):
 def repoadd(repo, upYaml):
     script = []
     for k,rep in repo.items():
-        print(k)
         print(rep)
         for i in upYaml:
-            print(i)
-#             if i['repository'] == k:
-#                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
+            if i['repository'] == k:
+                print(i)
+                print(k)
+                script.append("helm repo add " + rep['label'] + " " + rep['url'])
     return script
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
