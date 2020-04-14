@@ -130,7 +130,8 @@ def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pa
     return dep1
     
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit, repository, upYaml ):
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists)
+#                      org, app_name, lastCommit, bitbucketCommit, repository, upYaml ):
     valOverride = ""
     if valExists:
         valOverride = " -f "  + valuesDir + "/"+ name+".yaml"
@@ -140,7 +141,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride       
         for i in upYaml:
-            for k,rep in repository.items():
+            for k,rep in reps.items():
                 if i['repository'] == k and name == i['name']:
                     script.append("helm repo add " + rep['label'] + " " + rep['url'])
     else:
@@ -173,7 +174,8 @@ for apps in delYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     
-    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, delYaml)
+    gitlabci[deployName] = buildDeployStage("uninstall", False, deployName, apps['name'], ns, repo, apps['version'], valExists)
+#     , org,app_name, lastCommit, bitbucketCommit, reps, delYaml)
     
     
 for apps in upYaml:
@@ -191,7 +193,8 @@ for apps in upYaml:
     initName = "initialize" 
     initTo = "init"
     gitlabci[initName] = initStage(initTo, org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
-    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, upYaml)
+    gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists)
+#     , org,app_name, lastCommit, bitbucketCommit, reps, upYaml)
 
 
 if done1 or done2:
