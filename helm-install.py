@@ -13,10 +13,10 @@ pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
 branch = sys.argv[5]
-# org = sys.argv[6]
-# app_name = sys.argv[7]
-# lastCommit = sys.argv[8]
-# bitbucketCommit = sys.argv[9]
+org = sys.argv[6]
+app_name = sys.argv[7]
+lastCommit = sys.argv[8]
+bitbucketCommit = sys.argv[9]
 
 valuesDir = "values"
 valuesDir1 = "/tmp/test"
