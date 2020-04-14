@@ -12,11 +12,11 @@ pathToUpYaml = sys.argv[1]
 pathToDelYaml = sys.argv[2]
 pathToValYaml = sys.argv[3]
 ns = sys.argv[4]
-branch = sys.argv[5]
-org = sys.argv[6]
-app_name = sys.argv[7]
-lastCommit = sys.argv[8]
-bitbucketCommit = sys.argv[9]
+# branch = sys.argv[5]
+org = sys.argv[5]
+app_name = sys.argv[6]
+lastCommit = sys.argv[7]
+bitbucketCommit = sys.argv[8]
 
 valuesDir = "values"
 
