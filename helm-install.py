@@ -160,9 +160,9 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride       
         for i in upYaml:
-        for k,rep in repo.items():
-            if i['repository'] == k:
-                script.append("helm repo add " + rep['label'] + " " + rep['url'])
+            for k,rep in repository.items():
+                if i['repository'] == k:
+                    script.append("helm repo add " + rep['label'] + " " + rep['url'])
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
 #     repos = repoAdd(repository, upYaml)
