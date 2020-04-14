@@ -109,13 +109,13 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def repoAdd(repo, upYaml):
-    script = []
-    for i in upYaml:
-        for k,rep in repo.items():
-            if i['repository'] == k:
-                script.append("helm repo add " + rep['label'] + " " + rep['url'])
-    return script
+# def repoAdd(repo, upYaml):
+#     script = []
+#     for i in upYaml:
+#         for k,rep in repo.items():
+#             if i['repository'] == k:
+#                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
+#     return script
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
@@ -159,10 +159,14 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride       
+        for i in upYaml:
+        for k,rep in repo.items():
+            if i['repository'] == k:
+                script.append("helm repo add " + rep['label'] + " " + rep['url'])
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-    repos = repoAdd(repository, upYaml)
-    script.append(repos)
+#     repos = repoAdd(repository, upYaml)
+#     script.append(repos)
     script.append(cmd)
     env = dict()
     env['name'] = namespace
