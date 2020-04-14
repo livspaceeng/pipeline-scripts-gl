@@ -109,15 +109,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-# def repoAdd(repo, upYaml):
-#     script = []
-#     for i in upYaml:
-#         for k,rep in repo.items():
-#             if i['repository'] == k:
-#                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
-#     return script
-
-def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
+def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
     script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
 )
@@ -130,10 +122,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     script.append("git checkout "+bitbucketCommit)
     script.append("$CMD_DIFF old env")
     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
-    script.append("ls -ls "+"/tmp/test")
-    script.append("ls -ls $pwd")
     script.append("cd ..")
-    script.append("ls -ls $pwd")
     script.append("mkdir -p values")
     script.append("rm -rf values/*")
     script.append("cp /tmp/test/* values/")
@@ -144,7 +133,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     artifacts['paths'].append("values")
     
     dep1 = OrderedDict()
-    dep1['stage'] = "init"
+    dep1['stage'] = stage
     dep1['script'] = script
     dep1['artifacts'] = artifacts
     return dep1
@@ -211,7 +200,8 @@ for apps in upYaml:
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
     initName = "initialize" 
-    gitlabci[initName] = initStage(org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
+    initTo = "init"
+    gitlabci[initName] = initStage(initTo, org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
     gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit, reps, upYaml)
 
 
