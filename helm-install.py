@@ -106,6 +106,27 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
+def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
+    script = []
+    script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
+)
+    script.append("source /usr/local/bin/pipeline-vars.sh")
+    script.append("echo "+"cloning repo")
+    script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
+    script.append("cd "+app_name)
+    script.append("git checkout "+lastCommit)
+    script.append("cp -r env old")
+    script.append("git checkout "+bitbucketCommit)
+    script.append("$CMD_DIFF old env")
+    script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
+    script.append("ls -ls "+"/tmp/test")
+    dep1 = OrderedDict()
+    dep1['stage'] = "init"
+    dep1['script'] = script
+    return dep
+    
+
+
 def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, org, app_name, lastCommit, bitbucketCommit ):
     valOverride = ""
     if valExists:
@@ -179,7 +200,8 @@ for apps in upYaml:
         
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
-    
+    initName = "initialize" 
+    gitlabci[initName] = initStage(org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
     gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
     
 
