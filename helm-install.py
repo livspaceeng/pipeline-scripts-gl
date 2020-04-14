@@ -130,7 +130,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     
     artifacts = dict()
     artifacts['paths'] = []
-    artifacts['paths'].append("/tmp/test")
+    artifacts['paths'].append("values")
     dep1 = OrderedDict()
     dep1['stage'] = "init"
     dep1['script'] = script
