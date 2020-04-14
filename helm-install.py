@@ -153,28 +153,20 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         cmd = "helm delete --purge "  + namespace + "-" + name
     
     script.append(cmd)
-#     env = dict()
-#     env['name'] = namespace
-#     env['url'] = glEnvUrl
+    env = dict()
+    env['name'] = namespace
+    env['url'] = glEnvUrl
     dep = OrderedDict()
     dep['stage'] = stage
     dep['script'] = script
-#     dep['environment'] = env
+    dep['environment'] = env
     return dep
     
 gitlabci = OrderedDict()
 gitlabci['image'] = glImage
 
 gitlabci['before_script'] = beforeScript(reps)
-env = OrderedDict()
-env['name'] = ns
-env['url'] = glEnvUrl
-gitlabci['environment'] = env
-
 gitlabci['stages'] = deployStages
-
-
-
 
 done1 = False
 done2 = False
