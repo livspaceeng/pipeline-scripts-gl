@@ -70,6 +70,7 @@ try:
     with open(pathToUpYaml, 'r') as stream:
         ups = yaml.safe_load(stream)
         upYaml = ups['dependencies']
+        print(upYaml)
 except Exception as exc:
     print(exc)
     upYaml = []
@@ -78,6 +79,7 @@ try:
     with open(pathToDelYaml, 'r') as stream:
         dels = yaml.safe_load(stream)
         delYaml = dels['dependencies']
+        print(delYaml)
 except Exception as exc:
     print(exc)
     delYaml = []
@@ -106,6 +108,11 @@ def beforeScript(repo):
         script.append("helm repo add " + rep['label'] + " " + rep['url'])
     script.append("helm repo update")
     return script
+
+def repoadd(repo):
+    for k,rep in repo.items():
+        if 
+        script.append("helm repo add " + rep['label'] + " " + rep['url'])
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
