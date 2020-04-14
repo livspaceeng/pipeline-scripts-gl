@@ -123,7 +123,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     dep1 = OrderedDict()
     dep1['stage'] = "init"
     dep1['script'] = script
-    return dep
+    return dep1
     
 
 
