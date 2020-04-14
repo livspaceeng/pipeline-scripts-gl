@@ -130,7 +130,7 @@ def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pa
     return dep1
     
 
-def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists)
+def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists):
 #                      org, app_name, lastCommit, bitbucketCommit, repository, upYaml ):
     valOverride = ""
     if valExists:
