@@ -115,7 +115,7 @@ def repoadd(repo, upYaml):
         print(rep)
         for i in upYaml:
             if i['repository'] == k:
-                print(i)
+                print(i['repository'])
                 print(k)
                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
     return script
