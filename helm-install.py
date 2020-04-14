@@ -116,22 +116,22 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride
-        script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
-)
-        script.append("source /usr/local/bin/pipeline-vars.sh")
-        script.append("echo "+"cloning repo")
-        script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
-        script.append("cd "+app_name)
-        script.append("git checkout "+lastCommit)
-        script.append("cp -r env old")
-        script.append("git checkout "+bitbucketCommit)
-        script.append("$CMD_DIFF old env")
-        script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
-        script.append("ls -ls "+"/tmp/test")
-        
+                
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
-     
+    script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
+)
+    script.append("source /usr/local/bin/pipeline-vars.sh")
+    script.append("echo "+"cloning repo")
+    script.append("git clone git@bitbucket.org:"+org+"/"+app_name+".git")
+    script.append("cd "+app_name)
+    script.append("git checkout "+lastCommit)
+    script.append("cp -r env old")
+    script.append("git checkout "+bitbucketCommit)
+    script.append("$CMD_DIFF old env")
+    script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
+    script.append("ls -ls "+"/tmp/test")
+
     script.append(cmd)
     env = dict()
     env['name'] = namespace
