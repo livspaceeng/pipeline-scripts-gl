@@ -114,7 +114,7 @@ def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pa
     script.append("$CMD_DIFF old env")
     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
     script.append("cd ..")
-    script.append("mkdir -p values")
+    script.append("mkdir -p "+valuesDir)
     script.append("rm -rf "+valuesDir+"/*")
     script.append("cp /tmp/test/* "+valuesDir+"/")
     script.append("ls -la "+valuesDir)
