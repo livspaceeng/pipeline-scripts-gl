@@ -111,7 +111,6 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     if valExists:
         valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
     script = []
-    script.append("ls -ls "+"/tmp/test")
     script.append("echo 'Upgrading " + name + " using " + app + "'")
 
     
@@ -128,6 +127,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         script.append("git checkout "+bitbucketCommit)
         script.append("$CMD_DIFF old env")
         script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
+        script.append("ls -ls "+"/tmp/test")
         
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
