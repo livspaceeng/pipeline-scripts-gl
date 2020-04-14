@@ -113,8 +113,10 @@ def repoadd(repo, pathToUpYaml):
     script = []
     for k,rep in repo.items():
         for i in pathToUpYaml:
-            if i['repository'] == k:
-                script.append("helm repo add " + rep['label'] + " " + rep['url'])
+            print(i['repository']
+            print(k)
+#             if i['repository'] == k:
+#                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
     return script
 
 def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
