@@ -111,6 +111,9 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
     if valExists:
         valOverride = " -f "  + valuesDir1 + "/"+ name+".yaml"
     script = []
+    script.append("ls -ls "+"/tmp/test")
+    script.append("echo 'Upgrading " + name + " using " + app + "'")
+
     
     if install:
         cmd = "helm upgrade $HELMARGS --timeout 600 --install --namespace " + namespace + " " + namespace + "-" + name + " " + repo + "/" + app + " --version " + version +  valOverride
@@ -125,9 +128,7 @@ def buildDeployStage(stage,install, name,app,namespace,repo,version, valExists, 
         script.append("git checkout "+bitbucketCommit)
         script.append("$CMD_DIFF old env")
         script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
-        script.append("ls -ls "+"/tmp/test")
-        script.append("echo 'Upgrading " + name + " using " + app + "'")
-
+        
     else:
         cmd = "helm delete --purge "  + namespace + "-" + name
      
