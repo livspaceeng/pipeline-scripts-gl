@@ -109,12 +109,12 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def repoadd(repo, pathToUpYaml):
+def repoadd(repo, upYaml):
     script = []
     for k,rep in repo.items():
         print(k)
         print(rep)
-        for i in pathToUpYaml:
+        for i in upYaml:
             print(i)
 #             if i['repository'] == k:
 #                 script.append("helm repo add " + rep['label'] + " " + rep['url'])
