@@ -212,7 +212,7 @@ for apps in upYaml:
     initName = "initialize" 
     gitlabci[initName] = initStage(org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
     gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists, org,app_name, lastCommit, bitbucketCommit)
-    gitlabci['repoadd'] = repoadd(reps, pathToUpYaml)
+    gitlabci['repoadd'] = repoadd(reps, upYaml)
 
 
 if done1 or done2:
