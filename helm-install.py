@@ -167,7 +167,7 @@ gitlabci['image'] = glImage
 
 gitlabci['before_script'] = beforeScript(reps)
 env = OrderedDict()
-env['name'] = namespace
+env['name'] = ns
 env['url'] = glEnvUrl
 gitlabci['environment'] = env
 
