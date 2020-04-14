@@ -121,6 +121,12 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     script.append("$CMD_BUILDV1"+" "+pathToUpYaml+" "+pathToDelYaml)
     script.append("ls -ls "+"/tmp/test")
     script.append("ls -ls $pwd")
+    script.append("cd ..")
+    script.append("ls -ls $pwd")
+    script.append("mkdir -p values")
+    script.append("rm -rf values/*")
+    script.append("cp /tmp/test/* values/")
+    script.append("ls -ls $pwd")
     
     artifacts = dict()
     artifacts['paths'] = []
