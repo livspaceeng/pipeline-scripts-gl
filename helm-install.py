@@ -128,7 +128,7 @@ def initStage(org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDel
     script.append("cp /tmp/test/* values/")
     script.append("ls -ls $pwd")
     
-    artifacts = dict()
+    artifacts = OrderedDict()
     artifacts['paths'] = []
     artifacts['paths'].append("values")
     dep1 = OrderedDict()
