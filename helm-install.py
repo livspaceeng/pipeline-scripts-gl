@@ -100,7 +100,7 @@ def beforeScript(repo):
     script.append("helm repo update")
     return script
 
-def initStage(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
+def checkout(stage, org, appName, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml):
     script = []
     script.append("curl https://raw.githubusercontent.com/livspaceeng/pipeline-scripts-gl/master/install1.sh | bash -s latest"
 )
@@ -187,9 +187,9 @@ for apps in upYaml:
         
     repo = getrepo(apps['repository'])
     valExists = os.path.isfile(pathToValYaml + "/" +deployName + ".yaml" )
-    initName = "initialize" 
-    initTo = "init"
-    gitlabci[initName] = initStage(initTo, org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
+    initName = "checkout" 
+    initTo = "checkout"
+    gitlabci[initName] = checkout(initTo, org, app_name, lastCommit, bitbucketCommit, pathToUpYaml, pathToDelYaml)
     gitlabci[deployName] = buildDeployStage(deployTo, True, deployName, apps['name'], ns, repo,apps['version'], valExists)
 
 if done1 or done2:
